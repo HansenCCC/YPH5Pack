@@ -16,7 +16,7 @@
 无需安装为全局模块，直接 clone 使用即可：
 
 ```sh
-git clone https://github.com/yourname/YPH5Pack.git
+git clone https://github.com/HansenCCC/YPH5Pack.git
 cd YPH5Pack
 npm install
 ```
