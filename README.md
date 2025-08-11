@@ -19,6 +19,8 @@
 git clone https://github.com/HansenCCC/YPH5Pack.git
 cd YPH5Pack
 npm install
+# md5.js 依赖 exiftool，按需接入
+brew install exiftool
 ```
 
 <br/>
@@ -26,7 +28,8 @@ npm install
 ## 🚀 使用方法
 
 ```
-node app.js ./your-html-folder
+node md5.js ./your-html-folder # 此脚本是修改所有文件的md5值【按需执行】
+node chaos.js ./your-html-folder # 此脚本是代码混淆 【按需执行】
 ```
 
 <br/>
