@@ -71,7 +71,12 @@ function traverseDir(dir) {
   });
 }
 
-const targetDir = process.argv[2] || process.cwd();
+const targetDir = process.argv[2]
+if (!targetDir) {
+  console.error(`请指定目标目录`);
+  process.exit(1);
+}
+
 if (!fs.existsSync(targetDir)) {
   console.error(`目录不存在: ${targetDir}`);
   process.exit(1);
