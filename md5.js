@@ -2,20 +2,16 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
+const ignoredDirs = ['node_modules', '.git', 'dist', 'build', 'out'];
+
 function isImage(ext) {
   return ['.png', '.jpg', '.jpeg', '.gif', '.webp'].includes(ext);
 }
 
-// 明确哪些是纯文本文件可以加注释的
 const commentableTextExts = ['.js', '.css', '.vue', '.html', '.txt', '.ts', '.jsx', '.tsx', '.mjs', '.cjs'];
-
-// JSON 和类似格式，不允许加注释
 const noCommentExts = ['.json', '.lock', '.yml', '.yaml', '.toml', '.xml'];
-
-// 其他不支持注释的文本文件也按无害追加处理
 const safeAppendExts = ['.md', '.csv', '.properties', '.ini'];
 
-// 生成随机字符串
 function randomString(len = 10) {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let s = '';
@@ -25,7 +21,6 @@ function randomString(len = 10) {
   return s;
 }
 
-// 修改图片元数据（添加自定义注释）
 function modifyImageMetadata(filePath) {
   const comment = `Modified-${randomString(20)}`;
   try {
@@ -36,7 +31,6 @@ function modifyImageMetadata(filePath) {
   }
 }
 
-// 修改文本文件，插入随机注释
 function modifyTextFile(filePath) {
   try {
     const ext = path.extname(filePath).toLowerCase();
@@ -86,6 +80,11 @@ function modifyTextFile(filePath) {
 function traverseDir(dir) {
   const files = fs.readdirSync(dir);
   files.forEach(file => {
+    if (ignoredDirs.includes(file)) {
+      console.log(`跳过目录: ${path.join(dir, file)}`);
+      return;
+    }
+
     const fullPath = path.join(dir, file);
     const stats = fs.statSync(fullPath);
     if (stats.isDirectory()) {
